@@ -5,6 +5,7 @@ const holdBtn = document.querySelector('.btn--hold');
 const rollBtn = document.querySelector('.btn--roll');
 const dice = document.querySelector('.dice');
 const players = document.querySelectorAll('.player');
+let done = false;
 
 // START STATES
 dice.style.display = 'none';
@@ -15,6 +16,8 @@ players.forEach(p => {
 
 // ROLL BUTTON FUNCTION
 rollBtn.addEventListener('click', () => {
+  if (done) return;
+
   const randomRoll = Math.floor(Math.random() * 6 + 1);
   dice.setAttribute('src', `dice-${randomRoll}.png`);
   dice.style.display = 'block';
@@ -36,7 +39,9 @@ rollBtn.addEventListener('click', () => {
 });
 
 // HOLD BUTTON FUNCTION
+
 holdBtn.addEventListener('click', () => {
+  if (done) return;
   const activePlayer = document.querySelector('.player--active');
 
   const activePlayerScore = parseFloat(
@@ -48,6 +53,12 @@ holdBtn.addEventListener('click', () => {
   activePlayer.querySelector('.score').innerText =
     activePlayerCurrentScore + activePlayerScore;
   activePlayer.querySelector('.current-score').innerText = 0;
+
+  if (parseFloat(activePlayer.querySelector('.score').innerText) >= 20) {
+    activePlayer.classList.add('player--winner');
+    done = true;
+    return;
+  }
 
   players.forEach(p => {
     p.classList.toggle('player--active');
@@ -62,5 +73,8 @@ newBtn.addEventListener('click', () => {
   players.forEach(p => {
     p.querySelector('.score').innerText = 0;
     p.querySelector('.current-score').innerText = 0;
+    p.classList.remove('player--winner', 'player--active');
+    done = false;
+    document.querySelector('.player--0').classList.add('player--active');
   });
 });
