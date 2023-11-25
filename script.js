@@ -54,7 +54,7 @@ holdBtn.addEventListener('click', () => {
     activePlayerCurrentScore + activePlayerScore;
   activePlayer.querySelector('.current-score').innerText = 0;
 
-  if (parseFloat(activePlayer.querySelector('.score').innerText) >= 20) {
+  if (parseFloat(activePlayer.querySelector('.score').innerText) >= 50) {
     activePlayer.classList.add('player--winner');
     done = true;
     return;
